@@ -2,6 +2,10 @@ import boto3
 from boto3.dynamodb.conditions import Key, Attr
 from dotenv import load_dotenv
 import os
+from botocore.exceptions import ClientError
+import botocore
+import base64
+
 
 load_dotenv()
 
@@ -27,16 +31,20 @@ AWS_RECK_SERVICE=os.getenv("AWS_RECK_SERVICE")
 AWS_RECK_COLLECTION_ID=os.getenv("AWS_RECK_COLLECTION_ID")
 
 
-#dynamodb instance using boto3
-dynamodb_resource = boto3.resource(AWS_DYN_DATABASE, region_name = REGION_NAME, aws_access_key_id = ACCESS_KEY_ID, aws_secret_access_key = SECRET_ACCESS_KEY)
-dynamodb_client = boto3.client(AWS_DYN_DATABASE, region_name = REGION_NAME, aws_access_key_id = ACCESS_KEY_ID, aws_secret_access_key = SECRET_ACCESS_KEY)
+try:
+    #dynamodb instance using boto3
+    dynamodb_resource = boto3.resource(AWS_DYN_DATABASE, region_name = REGION_NAME, aws_access_key_id = ACCESS_KEY_ID, aws_secret_access_key = SECRET_ACCESS_KEY)
+    dynamodb_client = boto3.client(AWS_DYN_DATABASE, region_name = REGION_NAME, aws_access_key_id = ACCESS_KEY_ID, aws_secret_access_key = SECRET_ACCESS_KEY)
 
-# dynamoDB Table Name 
-ddb_table = dynamodb_resource.Table(AWS_DB_TABLE1) 
+    # dynamoDB Table Name
+    ddb_table = dynamodb_resource.Table(AWS_DB_TABLE1)
 
-# S3 client using Boto3
-s3 = boto3.client(AWS_S3_SERVICE, region_name = REGION_NAME, aws_access_key_id = ACCESS_KEY_ID, aws_secret_access_key = SECRET_ACCESS_KEY)
-s3_resource = boto3.resource(AWS_S3_SERVICE, region_name = REGION_NAME, aws_access_key_id = ACCESS_KEY_ID, aws_secret_access_key = SECRET_ACCESS_KEY)
+    # S3 client using Boto3
+    s3 = boto3.client(AWS_S3_SERVICE, region_name = REGION_NAME, aws_access_key_id = ACCESS_KEY_ID, aws_secret_access_key = SECRET_ACCESS_KEY)
+    s3_resource = boto3.resource(AWS_S3_SERVICE, region_name = REGION_NAME, aws_access_key_id = ACCESS_KEY_ID, aws_secret_access_key = SECRET_ACCESS_KEY)
 
-# Rekognition Client for add face
-rekog_client = boto3.client(AWS_RECK_SERVICE, region_name = REGION_NAME, aws_access_key_id = ACCESS_KEY_ID, aws_secret_access_key = SECRET_ACCESS_KEY)
+    # Rekognition Client for add face
+    rekog_client = boto3.client(AWS_RECK_SERVICE, region_name = REGION_NAME, aws_access_key_id = ACCESS_KEY_ID, aws_secret_access_key = SECRET_ACCESS_KEY)
+except:
+    print("Error connectings")
+    raise HTTPException(status_code=404, detail="Can't connect")

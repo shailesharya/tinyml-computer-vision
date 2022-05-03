@@ -1,3 +1,6 @@
+
+from routers.auth import auth_router
+
 from routers.contact import contact_router
 from routers.event import event_router
 from routers.face import face_router

@@ -24,6 +24,7 @@ class EditContactDetailsRequest(BaseModel):
     face: str
     phone: str
     emailId: str
+    group: str
 
 class UserUpdateDetailRequest(BaseModel):
     fullname: str

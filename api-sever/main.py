@@ -1,7 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from routers.index import *
 from config.openapi import tags_metadata
+
+from fastapi.exceptions import RequestValidationError
+
 
 app = FastAPI(
    title = "Edge AI APIs",
@@ -25,12 +28,10 @@ app.add_middleware(
 )
 
 
- 
- 
+
+app.include_router(auth_router)
+
 app.include_router(contact_router)
 app.include_router(event_router)
 app.include_router(face_router)
 app.include_router(video_router)
- 
- 
- 

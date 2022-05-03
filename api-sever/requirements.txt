@@ -10,4 +10,8 @@ uvicorn == 0.17.6
 boto3 == 1.21.21
 
 # dotenv loads environment variables from .env file
-python-dotenv == 0.20.0  
+python-dotenv == 0.20.0
+
+passlib[bcrypt]
+python-jose[cryptography]
+python-multipart  
